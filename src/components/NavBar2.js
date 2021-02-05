@@ -1,44 +1,41 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import clsx from "clsx";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import { useAuth } from "../contexts/AuthContext"
+import logo from '../band s logo.png'
 
-// import { AppContext } from "./AppContext";
-import ContactSupportIcon from '@material-ui/icons/ContactSupport';
+
 import {
   Drawer,
   CssBaseline,
   AppBar,
   Toolbar,
   List,
-  Collapse,
   Typography,
   IconButton,
   ListItem,
   ListItemIcon,
-  ListItemText,
   Link,
   Divider,
 } from "@material-ui/core";
-import ExpandLess from "@material-ui/icons/ExpandLess";
-import ExpandMore from "@material-ui/icons/ExpandMore";
+
 import { 
+  IoIosHome,
+  IoIosPersonAdd,
+  IoMdLogOut
+  } from "react-icons/io";
+import DescriptionIcon from '@material-ui/icons/Description';
 
-  IoMdVideocam, 
-  IoIosColorPalette, 
-  IoMdPaper, 
-  IoIosLocate,
-  IoMdFlask } from "react-icons/io";
 
-import { BiBadge } from "react-icons/bi";
 
 
 import { withStyles } from "@material-ui/core/styles";
 
 import Switch from "@material-ui/core/Switch";
-import Grid from "@material-ui/core/Grid";
+
 import { useHistory } from "react-router-dom";
 const drawerWidth = 240;
 
@@ -47,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
   },
   appBar: {
-    backgroundColor: "#182028",
+    backgroundColor: "#0A4F39",
     transition: theme.transitions.create(["margin", "width"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -73,8 +70,8 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerPaper: {
     width: drawerWidth,
-    backgroundColor: "#182028",
-    fontFamily: "Gurajada",
+    backgroundColor: "#0A4F39",
+    fontFamily: "Lusitana, Georgia,serif",
    
   },
   drawerHeader: {
@@ -128,14 +125,14 @@ const useStyles = makeStyles((theme) => ({
   },
   itemListText: {
     color: "white",
-  },
+  }, 
   typo: {
-    fontFamily: "Gurajada",
+    fontFamily: "Lusitana, Georgia,serif",
     color: "white",
   },
 
   lang: {
-    fontFamily: "Gurajada",
+    fontFamily: "Lusitana, Georgia,serif",
     marginLeft: "auto",
     float: "right",
   },
@@ -159,30 +156,7 @@ const AntSwitch = withStyles((theme) => ({
     padding: 0,
     display: "flex",
   },
-  // switchBase: {
-  //   padding: 2,
-  //   color: "#182028",
-  //   backgroundColor: "white",
-  //   "&$checked": {
-  //     transform: "translateX(12px)",
-  //     color: "#182028",
-  //     "& + $track": {
-  //       opacity: 1,
-  //       backgroundColor: "white",
-  //       borderColor: theme.palette.primary.main,
-  //     },
-  //   },
-  // },
-  // thumb: {
-  //   width: 12,
-  //   height: 12,
-  //   boxShadow: "none",
-  // },
-  // track: {
-  //   borderRadius: 16 / 2,
-  //   opacity: 1,
-  //   backgroundColor: "white",
-  // },
+  
 
   switchBase: {
     padding: 2,
@@ -212,43 +186,31 @@ const AntSwitch = withStyles((theme) => ({
 }))(Switch);
 
 const icons = [
-  IoMdFlask,
-  ContactSupportIcon,
+  IoIosHome,
+  DescriptionIcon,
 
-  IoMdVideocam,
-  IoIosColorPalette,
-  IoMdPaper,
+  IoIosPersonAdd,
+  IoMdLogOut,
+
 ];
 
 const titles = {
-  0: "Productos",
-  1: "Contacto",
-  2: "Videos",
-  3: "Carta de color",
-  4: "Signup",
+  0: "Home",
+  1: "Docs",
+  2: "Update Profile",
+  3: "Logout",
+  
 };
 
 const titlesEng = {
-  0: "Products",
-  1: "Contact",
-  2: "Videos",
-  3: "Color chart",
-  4: "Signup",
+  0: "Home",
+  1: "Docs",
+  2: "Update Profile",
+  3: "Logout",
+  
 };
 
-const dimensions=[
-  "Artist Dimension",
-  "Color Dimension",
-  "Heal Dimension",
-  "Balance Dimension",
-  "Shine Dimension",
-  "Moisturizing Dimension",
-  "Design Dimension"
 
-
-
-
-]
 
 export default function NavBar2() {
   // const langContext = useContext(AppContext);
@@ -257,19 +219,23 @@ export default function NavBar2() {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const [lang, setLang] = useState(localStorage.getItem("lex"));
-
+  const [error, setError] = useState("")
+  const { currentUser, logout } = useAuth()
   const history = useHistory();
 
-  const handleRoute = (path) => {
-    history.push(path);
-  };
+  async function handleLogout() {
+    setError("")
+
+    try {
+      await logout()
+      history.push("/login")
+    } catch {
+      setError("Failed to log out")
+    }
+  }
 
 
-  const handleClickSales = () => {
-    setOpenSales(!openSales);
 
-    // console.log("yoooo");
-  };
 
 
 
@@ -315,53 +281,33 @@ export default function NavBar2() {
       <List className={classes.linkText}>
         {icons.map((Item, index) => {
           return (
-           Item===IoMdFlask ? 
-           <span>
-           <ListItem button onClick={handleClickSales}>
-           <ListItemIcon>
-             <Item key={index + 35}
-                 className={classes.linkText}
-                 size="30px"/>
-           </ListItemIcon>
-           <Typography
-               key={index + 532}
-               className={classes.typo}
-               variant="h4"
-               noWrap
-             >
-            {chooseLang()[index]}
-             </Typography>
-           {openSales ? <ExpandLess /> : <ExpandMore />}
-         </ListItem>
-         <Collapse in={openSales} timeout="auto" unmountOnExit>
-            {dimensions.map((d) => {
-                  return(
+           Item===IoMdLogOut ? 
+    
+        <ListItem key={index + 5} button index={chooseLang()[index]} >
+        <ListItemIcon key={index + 18}>
+          {
+            <Item
+              key={index + 35}
+              className={classes.navIcon}
+              size="30px"
+            />
+          }
+      
+        </ListItemIcon>
 
-                    <List component="div" disablePadding>
-                  <Link 
-                    href={d.split(" ").join("").toLowerCase()}
-                  className={classes.linkText2}>
-                    <ListItem button key={d} className={classes.nested}>
-                      <ListItemIcon>
-                        <BiBadge className={classes.linkText2} />
-                      </ListItemIcon>
-                      <ListItemText primary={d} />
-                    </ListItem>
-                  </Link>
-     
-                  
-     
-                 
-                </List>
-                  )
-            })}
-         </Collapse>
-           
-         </span>
-           
-           
-           
-           
+      
+          <Typography
+            key={index + 532}
+            className={classes.typo}
+            variant="h6"
+            noWrap
+            onClick={handleLogout}
+          >
+         {chooseLang()[index]}
+          </Typography>
+       
+        {/* <ListItemText primary={titles[index]} /> */}
+      </ListItem> 
            
            
            
@@ -406,7 +352,9 @@ export default function NavBar2() {
            </ListItemIcon>
 
            <Link
-             href={titlesEng[index].split(" ").join("").toLowerCase()}
+             href={
+               titlesEng[index].split(" ").join("").toLowerCase()==="home" ? '/' : 
+               titlesEng[index].split(" ").join("").toLowerCase() }
              key={chooseLang()[index]}
              className={classes.linkText}
              onClick={() => {
@@ -416,7 +364,7 @@ export default function NavBar2() {
              <Typography
                key={index + 532}
                className={classes.typo}
-               variant="h4"
+               variant="h6"
                noWrap
              >
             {chooseLang()[index]}
@@ -466,41 +414,22 @@ export default function NavBar2() {
           </IconButton>
           <div style={{ marginLeft: "10px" }}>
             <Link href="/" className={classes.linkText}>
-            {/* <img
-                  src={tec_italy_logo}
+            <img
+                  src={logo}
                   style={{ height: "35px",
                 marginTop: "2px" }}
-                /> */}
+                />
+              
+               
+           
+                
             </Link>
           </div>
 
           {open === true ? null : (
             <Typography component="div" className={classes.lang}>
-              <Grid component="label" container alignItems="center" spacing={1}>
-                <Grid
-                  item
-                  style={{
-                    color: "white",
-                  }}
-                >
-                  {chooselll(lang) ? "English" : "Español"}
-                </Grid>
-                <Grid item>
-                  <AntSwitch
-                    checked={chooselll(lang)}
-                    onChange={handleChange}
-                    name="checkedC"
-                  />
-                </Grid>
-                {/* <Grid
-                  item
-                  style={{
-                    color: chooselll(lang) ? "#23a6d5" : "white",
-                  }}
-                >
-                  Eng
-                </Grid> */}
-              </Grid>
+            
+            <span style={{marginTop: "30px"}}>Bird and Swing</span>
             </Typography>
           )}
         </Toolbar>

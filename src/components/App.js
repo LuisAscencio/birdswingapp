@@ -9,6 +9,7 @@ import PrivateRoute from "./PrivateRoute"
 import ForgotPassword from "./ForgotPassword"
 import UpdateProfile from "./UpdateProfile"
 import NavBar2 from './NavBar2';
+import Docs from './Docs'
 
 function App() {
   return (
@@ -22,7 +23,8 @@ function App() {
             <NavBar2/>
             <Switch>
               <PrivateRoute exact path="/" component={Dashboard} />
-              <PrivateRoute path="/update-profile" component={UpdateProfile} />
+              <PrivateRoute path="/updateprofile" component={UpdateProfile} />
+              <PrivateRoute path="/docs" component={Docs} />
               <Route path="/signup" component={Signup} />
               <Route path="/login" component={Login} />
               <Route path="/forgot-password" component={ForgotPassword} />

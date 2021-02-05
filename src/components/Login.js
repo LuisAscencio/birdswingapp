@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react"
 import { Form, Button, Card, Alert } from "react-bootstrap"
 import { useAuth } from "../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
-
+import logo from '../band s logo.png'
 export default function Login() {
   const emailRef = useRef()
   const passwordRef = useRef()
@@ -28,7 +28,21 @@ export default function Login() {
 
   return (
     <>
+     <img
+                  src={logo}
+                  style={{ width: "200px",
+                  position: "relative",
+             
+                    left: "50%",
+                    /* bring your own prefixes */
+                    transform: "translate(-50%, -5%)"
+
+
+              }}
+              
+                />
       <Card>
+     
         <Card.Body>
           <h2 className="text-center mb-4">Log In</h2>
           {error && <Alert variant="danger">{error}</Alert>}
@@ -41,7 +55,9 @@ export default function Login() {
               <Form.Label>Password</Form.Label>
               <Form.Control type="password" ref={passwordRef} required />
             </Form.Group>
-            <Button disabled={loading} className="w-100" type="submit">
+            <Button disabled={loading} className="w-100" type="submit" style={{
+              backgroundColor: "#0A4F39"
+            }}>
               Log In
             </Button>
           </Form>
