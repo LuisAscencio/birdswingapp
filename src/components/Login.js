@@ -30,7 +30,7 @@ export default function Login() {
     <>
      <img
                   src={logo}
-                  style={{ width: "200px",
+                  style={{ width: "15vw",
                   position: "relative",
              
                     left: "50%",
